@@ -17,6 +17,7 @@
 #include <memory>
 #include <vector>
 #include "lua.hpp"
+#include "SceneViewer.h"
 
 class Window{
 public:
@@ -35,6 +36,8 @@ private:
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     bool show_demo = false;
+    bool show_sv = true;
     std::unique_ptr<PhyG::Triangle> t;
+    std::unique_ptr<PhyG::SceneViewer> s;
 };
 #endif

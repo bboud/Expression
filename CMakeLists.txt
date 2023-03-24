@@ -16,6 +16,9 @@ set(SOURCES
         src/editor/Editor.cpp
         src/editor/Tab.cpp
 
+        src/SceneViewer.cpp
+        src/Framebuffer.cpp
+
         glad/src/glad.c
 
         imgui/imgui.cpp

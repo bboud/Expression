@@ -77,8 +77,8 @@ Window::~Window() {
 }
 
 void Window::run() {
-    t = std::make_unique<PhyG::Triangle>("../shaders/base.vert", "../shaders/base.frag");
     editor = std::make_unique<PhyG::Editor>(L);
+    s = std::make_unique<PhyG::SceneViewer>();
 
     while(!glfwWindowShouldClose(window)){
 
@@ -92,6 +92,7 @@ void Window::run() {
             if(ImGui::BeginMenu("Graphics")){
                 ImGui::MenuItem("Demo Menu", NULL, &show_demo);
                 ImGui::MenuItem("Editor", NULL, &editor->open);
+                ImGui::MenuItem("Scene Viewer", NULL, &show_sv);
                 ImGui::EndMenu();
             }
             ImGui::EndMainMenuBar();
@@ -104,9 +105,9 @@ void Window::run() {
             editor->Render();
         }
 
-        // Views should be called here
-        t->RenderMenus();
-        //////
+        if(show_sv){
+            s->Render();
+        }
 
         ImGui::Render();
         //#############
@@ -117,9 +118,6 @@ void Window::run() {
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        // Graphics Render Loop here
-        t->Render();
 
         // Render for IMGUI
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
