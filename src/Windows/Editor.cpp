@@ -6,6 +6,7 @@
 
 PhyG::Editor::Editor(lua_State * L) {
     lua = L;
+    title = "Lua Editor";
 }
 
 PhyG::Editor::~Editor() {}
@@ -71,7 +72,7 @@ void PhyG::Editor::Render() {
         return;
     }
 
-    ImGui::Begin("Editor", &open, flags);
+    ImGui::Begin(title, &open, flags);
 
     if(ImGui::BeginMenuBar()){
 
@@ -101,18 +102,18 @@ void PhyG::Editor::Render() {
     // Passing a bool* to BeginTabItem() is similar to passing one to Begin():
     // the underlying bool will be set to false when the tab is closed.
 
-    if(!tabs.empty()){
-        if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
-        {
-            for(const auto &tab: tabs){
+    if(!tabs.empty()) {
+        if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags)) {
+            for (const auto &tab: tabs) {
                 tab.second->Render();
             }
             ImGui::EndTabBar();
         }
         ImGui::Separator();
-    }else{
-        fe_open = true;
     }
+//    }else{
+//        fe_open = true;
+//    }
 
     if(fe_open){
         FileExplorer();

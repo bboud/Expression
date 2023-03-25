@@ -7,19 +7,23 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdeprecated-declarations")
 
 set(SOURCES
         src/main.cpp
-        src/window.cpp
+        src/Application.cpp
+
         src/Shader.cpp
-        src/RenderObject.cpp
-        src/menus/Settings.cpp
-        src/Triangle.cpp
-
-        src/editor/Editor.cpp
-        src/editor/Tab.cpp
-
-        src/SceneViewer.cpp
+        src/Texture2D.cpp
         src/Framebuffer.cpp
 
-        glad/src/glad.c
+        src/Objects/Object.cpp
+        src/Objects/Cube.cpp
+        src/Objects/Camera.cpp
+
+        src/Window.cpp
+        src/Windows/Editor.cpp
+        src/Windows/Tab.cpp
+        src/Windows/SceneViewer.cpp
+
+        src/glad.c
+        src/stb_image.cpp
 
         imgui/imgui.cpp
         imgui/imgui_draw.cpp
@@ -31,29 +35,31 @@ set(SOURCES
 
 add_executable(phy_graphics ${SOURCES})
 
-# You should also build these yourself first :>
 set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/imgui)
+
+# You should also build these yourself first :>
 set(GLFW_DIR ${PROJECT_SOURCE_DIR}/glfw)
-set(GLAD_DIR ${PROJECT_SOURCE_DIR}/glad)
 set(LUA_DIR ${PROJECT_SOURCE_DIR}/lua)
 
 target_link_directories(phy_graphics PRIVATE ${GLFW_DIR}/build/src)
 target_link_directories(phy_graphics PRIVATE ${LUA_DIR}/src)
 
-target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
 target_include_directories(phy_graphics PRIVATE ${IMGUI_DIR}/backends)
 target_include_directories(phy_graphics PRIVATE ${IMGUI_DIR})
+
 target_include_directories(phy_graphics PRIVATE ${GLFW_DIR}/include)
-target_include_directories(phy_graphics PRIVATE ${GLAD_DIR}/include)
-target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/src/menus)
-target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/src/editor)
+
 target_include_directories(phy_graphics PRIVATE ${LUA_DIR}/src)
+
+target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/glm)
 
 target_link_libraries(phy_graphics PRIVATE glfw3)
 target_link_libraries(phy_graphics PRIVATE lua)
 
 if (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
-    target_link_libraries(phy_graphics PRIVATE GL X11 Xrandr Xinerama Xi Xxf86vm Xcursor pthread dl)
+    target_link_libraries(phy_graphics PRIVATE GL X11 Xrandr Xinerama Xi Xcursor pthread dl)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     target_link_libraries(phy_graphics PRIVATE "-framework OpenGL -framework Cocoa -framework IOkit")
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")

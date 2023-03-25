@@ -1,6 +1,8 @@
-#include "window.h"
+#include "Application.h"
+
+using namespace PhyG;
 
 int main(){
-    Window w;
-    w.run();
+    Application a;
+    a.run();
 }

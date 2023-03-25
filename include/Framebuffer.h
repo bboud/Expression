@@ -5,7 +5,7 @@
 #ifndef GRAPHICS_FRAMEBUFFER_H
 #define GRAPHICS_FRAMEBUFFER_H
 
-#include "glad/glad.h"
+#include "glad.h"
 #include <iostream>
 #include "imgui.h"
 

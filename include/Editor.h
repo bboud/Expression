@@ -5,17 +5,15 @@
 #ifndef GRAPHICS_EDITOR_H
 #define GRAPHICS_EDITOR_H
 
-#include "imgui.h"
+#include "Window.h"
 #include "Tab.h"
-#include "GLFW/glfw3.h"
 #include <filesystem>
 #include <iostream>
 #include <unordered_map>
-#include <vector>
 #include "lua.hpp"
 
 namespace PhyG {
-    class Editor{
+    class Editor : Window{
     public:
         Editor(lua_State * L);
         ~Editor();
