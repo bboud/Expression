@@ -5,22 +5,28 @@
 #include "SceneViewer.h"
 
 namespace PhyG{
-    SceneViewer::SceneViewer() {
+    SceneViewer::SceneViewer(GLFWwindow* w) {
         f = std::make_unique<Framebuffer>(ImVec2(800,600));
 
         cam = std::make_unique<Camera>();
         cam->SetPos(glm::vec3(3,3,3));
         cam->SetLookAt(glm::vec3(0,0,0));
 
+
         cube = std::make_unique<Cube>("../shaders/cube.vert", "../shaders/cube.frag",
                                       glm::vec3(0.0, 0.0, -3.0), glm::vec3());
         title = "Scene Viewer";
+
+        glfwSetCursorPosCallback(w, [](GLFWwindow* w, double xpos, double ypos){
+            // Camera Navigation
+        });
     }
 
     SceneViewer::~SceneViewer() {}
 
-    void SceneViewer::Update(GLFWwindow *w) {
-        cam->Update(w);
+    void SceneViewer::Update() {
+        cam->Update();
+        cube->SetRot(glm::vec3( glm::cos(glfwGetTime()), glm::sin(glfwGetTime()), 0.0 ));
     }
 
     void SceneViewer::Render() {
@@ -40,14 +46,13 @@ namespace PhyG{
         cube->BindShader();
 
         // Default Camera
-        glm::mat4 model = glm::translate(glm::mat4(1.0), cube->GetPos());
-        projection = glm::perspective(glm::radians(45.0f),
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f),
                                       (float)f->GetSize().x/(float)f->GetSize().y,
                                       0.1f, 100.0f);
 
         glm::mat4 view = cam->GetView();
 
-        cube->SetCameraUniforms(model, view, projection);
+        cube->SetCameraUniforms( view, projection);
         cube->BindVAO();
 
         cube->Draw();

@@ -79,7 +79,7 @@
 
      void Application::run() {
          editor = std::make_unique<PhyG::Editor>(L);
-         s = std::make_unique<PhyG::SceneViewer>();
+         s = std::make_unique<PhyG::SceneViewer>(window);
 
          while(!glfwWindowShouldClose(window)){
 
@@ -107,7 +107,7 @@
              }
              if(s->open){
                  s->Render();
-                 s->Update(window);
+                 s->Update();
              }
 
              ImGui::Render();

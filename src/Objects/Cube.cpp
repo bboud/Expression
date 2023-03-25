@@ -41,7 +41,14 @@ namespace PhyG{
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 
-    void Cube::SetCameraUniforms(glm::mat4 m, glm::mat4 v, glm::mat4 p) {
-        shader->SetCameraUniforms(m, v, p);
+    void Cube::SetCameraUniforms(glm::mat4 v, glm::mat4 p) {
+        model = glm::translate(glm::mat4(1.0), GetPos());
+
+        // Is this the best way to do this?
+        model = glm::rotate(model, GetRot().x, glm::vec3(1.0, 0.0, 0.0));
+        model = glm::rotate(model, GetRot().y, glm::vec3(0.0, 1.0, 0.0));
+        model = glm::rotate(model, GetRot().z, glm::vec3(0.0, 0.0, 1.0));
+
+        shader->SetCameraUniforms(model, v, p);
     }
 }

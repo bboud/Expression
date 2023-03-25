@@ -16,7 +16,7 @@ namespace PhyG{
         // Maybe another constructor for initial lookat? Who knows..
 
         ~Camera();
-        void Update(GLFWwindow * w);
+        void Update();
 
         void SetLookAt(glm::vec3 t);
         glm::vec3 GetLookAt();

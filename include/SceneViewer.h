@@ -15,10 +15,10 @@
 namespace PhyG{
     class SceneViewer : Window {
     public:
-        SceneViewer();
+        SceneViewer(GLFWwindow* w);
         ~SceneViewer();
         void Render();
-        void Update(GLFWwindow* w);
+        void Update();
         bool open = false;
     private:
         std::unique_ptr<Framebuffer> f;

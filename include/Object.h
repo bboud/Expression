@@ -24,8 +24,8 @@ namespace PhyG{
 
         const char* GetName();
     protected:
-        glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
-        glm::vec3 rotation = glm::vec3(0.0, 0.0, 0.0);
+        glm::vec3 position = glm::vec3(0.0);
+        glm::vec3 rotation = glm::vec3(1.0);
         const char * name = "Untitled Object";
     };
 }

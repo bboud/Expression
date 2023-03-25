@@ -27,12 +27,14 @@ namespace PhyG {
         inline void BindShader() { shader->Use(); }
         inline void BindTextures() { tex->BindTex(); }
 
-        void SetCameraUniforms(glm::mat4 m, glm::mat4 v, glm::mat4 p);
+        void SetCameraUniforms(glm::mat4 v, glm::mat4 p);
 
     private:
 
         std::unique_ptr<Texture2D> tex;
         std::unique_ptr<Shader> shader;
+
+        glm::mat4 model = glm::mat4(1.0);
 
         bool open = true;
         GLuint VAO, VBO;

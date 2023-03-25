@@ -23,7 +23,7 @@ namespace PhyG{
     Camera::~Camera() {}
 
     // Run on update loop
-    void Camera::Update(GLFWwindow* w) {
+    void Camera::Update() {
         // Recalculate forward
         glm::vec3 tup = glm::vec3(0.0, 1.0, 0.0);
         glm::vec3 right = glm::normalize(glm::cross(tup, GetForward()));
