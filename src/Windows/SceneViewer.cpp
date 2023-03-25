@@ -7,9 +7,11 @@
 namespace PhyG{
     SceneViewer::SceneViewer() {
         f = std::make_unique<Framebuffer>(ImVec2(800,600));
+
         cam = std::make_unique<Camera>();
         cam->SetPos(glm::vec3(3,3,3));
         cam->SetLookAt(glm::vec3(0,0,0));
+
         cube = std::make_unique<Cube>("../shaders/cube.vert", "../shaders/cube.frag",
                                       glm::vec3(0.0, 0.0, -3.0), glm::vec3());
         title = "Scene Viewer";

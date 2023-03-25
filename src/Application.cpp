@@ -105,7 +105,6 @@
              if(editor->open){
                  editor->Render();
              }
-
              if(s->open){
                  s->Render();
                  s->Update(window);

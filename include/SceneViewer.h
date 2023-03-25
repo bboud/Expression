@@ -5,6 +5,8 @@
 #ifndef GRAPHICS_SCENEVIEWER_H
 #define GRAPHICS_SCENEVIEWER_H
 
+#define ImTextureID void *
+
 #include "Window.h"
 #include "Framebuffer.h"
 #include "Camera.h"
