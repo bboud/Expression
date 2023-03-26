@@ -2,8 +2,8 @@
 #define CONFIG
 
 #define WINDOW_NAME "Graphics"
-#define WINDOW_HEIGHT 1920
-#define WINDOW_WIDTH 1080
+#define WINDOW_HEIGHT 1200
+#define WINDOW_WIDTH 960
 #define DARK_COLORS
 #define DEBUG
 

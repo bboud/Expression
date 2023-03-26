@@ -5,25 +5,25 @@
 #ifndef GRAPHICS_SCENEVIEWER_H
 #define GRAPHICS_SCENEVIEWER_H
 
-#define ImTextureID void *
-
 #include "Window.h"
 #include "Framebuffer.h"
 #include "Camera.h"
 #include "Cube.h"
+#include "WorldQuad.h"
+#include <unordered_map>
 
 namespace PhyG{
-    class SceneViewer : Window {
+    class SceneViewer : public Window {
     public:
-        SceneViewer(GLFWwindow* w);
+        explicit SceneViewer(bool *o);
         ~SceneViewer();
-        void Render();
-        void Update();
-        bool open = false;
+        void Render() override;
+        void Update() override;
     private:
         std::unique_ptr<Framebuffer> f;
         std::unique_ptr<Camera> cam;
-        std::unique_ptr<Cube> cube;
+
+        std::unordered_map<std::string, std::unique_ptr<RenderObject>> scene_objects;
 
         glm::mat4 projection;
     };

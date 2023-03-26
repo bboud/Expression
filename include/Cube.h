@@ -10,34 +10,15 @@
 #include "Texture2D.h"
 #include <memory>
 #include "Shader.h"
-#include "Object.h"
+#include "RenderObject.h"
 
 namespace PhyG {
-    class Cube : public Object {
+    class Cube : public RenderObject {
     public:
-        Cube(std::string vertex_shader_location, std::string fragment_shader_location,
-             glm::vec3 iPosition, glm::vec3 iOrientation);
+        Cube(std::string vertex_shader_location, std::string fragment_shader_location);
         ~Cube();
-        void Draw();
-
-        inline void BindVAO(){ glBindVertexArray(VAO); }
-        inline void BindVBO(){ glBindBuffer(GL_ARRAY_BUFFER, VBO); }
-        inline void UnbindVAO(){ glBindVertexArray(0); }
-        inline void UnbindVBO(){ glBindBuffer(GL_ARRAY_BUFFER, 0); }
-        inline void BindShader() { shader->Use(); }
-        inline void BindTextures() { tex->BindTex(); }
-
-        void SetCameraUniforms(glm::mat4 v, glm::mat4 p);
 
     private:
-
-        std::unique_ptr<Texture2D> tex;
-        std::unique_ptr<Shader> shader;
-
-        glm::mat4 model = glm::mat4(1.0);
-
-        bool open = true;
-        GLuint VAO, VBO;
 
         GLfloat vertices[216] = {
                 -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,

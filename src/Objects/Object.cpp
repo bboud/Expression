@@ -13,6 +13,14 @@ namespace PhyG{
         return position;
     }
 
+    void Object::SetScale(glm::vec3 s){
+        scale = s;
+    }
+
+    glm::vec3 Object::GetScale(){
+        return scale;
+    }
+
     void Object::SetRot(glm::vec3 rot){
         rotation = rot;
     }

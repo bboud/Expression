@@ -14,13 +14,17 @@ set(SOURCES
         src/Framebuffer.cpp
 
         src/Objects/Object.cpp
+        src/Objects/RenderObject.cpp
         src/Objects/Cube.cpp
         src/Objects/Camera.cpp
+        src/Objects/WorldQuad.cpp
 
         src/Window.cpp
         src/Windows/Editor.cpp
-        src/Windows/Tab.cpp
         src/Windows/SceneViewer.cpp
+        src/Windows/SceneObjects.cpp
+        src/Windows/Window.cpp
+        src/Windows/Console.cpp
 
         src/glad.c
         src/stb_image.cpp

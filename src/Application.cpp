@@ -5,10 +5,6 @@
          std::cerr << "GLFW Error: " << error << ": " << description << std::endl;
      }
 
-     void Application::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods){
-
-     }
-
      Application::Application() {
          glfwSetErrorCallback(glfw_error_callback);
          if (!glfwInit()) {
@@ -20,23 +16,18 @@
 #ifdef __APPLE__
          glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
          glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+#endif
          glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
          glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#else
-         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-#endif
 
-         window = glfwCreateWindow(WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_NAME, NULL, NULL);
-         if (window == NULL){
+         app_state.window = glfwCreateWindow(WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_NAME, NULL, NULL);
+         if (app_state.window == NULL){
              std::cerr << "We couldn't create the window!" <<  std::endl;
              return;
          }
 
-         glfwMakeContextCurrent(window);
+         glfwMakeContextCurrent(app_state.window);
          glfwSwapInterval(1);
-
-         glfwSetKeyCallback(window, key_callback);
 
          // Initialize after creating window
          int v = gladLoadGL();
@@ -49,23 +40,19 @@
          ImGui::CreateContext();
          ImGuiIO &io = ImGui::GetIO(); (void)io;
 
-#ifdef DARK_COLORS
          ImGui::StyleColorsDark();
-#elif
-         ImGui::StyleColorsClassic();
-#endif
 
-         ImGui_ImplGlfw_InitForOpenGL(window, true);
+         ImGui_ImplGlfw_InitForOpenGL(app_state.window, true);
          ImGui_ImplOpenGL3_Init(GLSL_VERSION);
          //#############
 
          // Opening Lua
-         L = luaL_newstate();
-         luaL_openlibs(L);
+         app_state.L = luaL_newstate();
+         luaL_openlibs(app_state.L);
      }
 
      Application::~Application() {
-         lua_close(L);
+         lua_close(app_state.L);
 
          // ### IMGUI ###
          ImGui_ImplOpenGL3_Shutdown();
@@ -73,15 +60,12 @@
          ImGui::DestroyContext();
          //#############
 
-         glfwDestroyWindow(window);
+         glfwDestroyWindow(app_state.window);
          glfwTerminate();
      }
 
      void Application::run() {
-         editor = std::make_unique<PhyG::Editor>(L);
-         s = std::make_unique<PhyG::SceneViewer>(window);
-
-         while(!glfwWindowShouldClose(window)){
+         while(!glfwWindowShouldClose(app_state.window)){
 
              //### IMGUI ###
              ImGui_ImplOpenGL3_NewFrame();
@@ -89,25 +73,40 @@
 
              ImGui::NewFrame();
 
+             static bool show_demo = false;
+             static bool show_console = false;
+             static bool show_scene_view = false;
+
              if(ImGui::BeginMainMenuBar()){
                  if(ImGui::BeginMenu("Graphics")){
-                     ImGui::MenuItem("Demo Menu", NULL, &show_demo);
-                     ImGui::MenuItem("Editor", NULL, &editor->open);
-                     ImGui::MenuItem("Scene Viewer", NULL, &s->open);
+                     ImGui::MenuItem("Demo Menu", nullptr, &show_demo);
+                     if(ImGui::MenuItem("Console", nullptr, &show_console)){
+                        if(show_console){
+                            app_state.windows.push_back(std::make_unique<Console>(&show_console));
+                        }
+                     }
+                     if(ImGui::MenuItem("Scene View", nullptr, &show_scene_view)){
+                         if(show_scene_view){
+                             app_state.windows.push_back(std::make_unique<SceneViewer>(&show_scene_view));
+                         }
+                     }
                      ImGui::EndMenu();
                  }
                  ImGui::EndMainMenuBar();
              }
 
+             for(auto w = app_state.windows.begin(); w != app_state.windows.end();){
+                if(w->get()->GetOpen()){
+                    w->get()->Render();
+                    w->get()->Update();
+                    w++;
+                }else{
+                    w = app_state.windows.erase(w);
+                }
+             }
+
              if(show_demo){
                  ImGui::ShowDemoWindow(&show_demo);
-             }
-             if(editor->open){
-                 editor->Render();
-             }
-             if(s->open){
-                 s->Render();
-                 s->Update();
              }
 
              ImGui::Render();
@@ -115,7 +114,7 @@
 
              // Adjust the viewport for window resizing
              int display_w, display_h;
-             glfwGetFramebufferSize(window, &display_w, &display_h);
+             glfwGetFramebufferSize(app_state.window, &display_w, &display_h);
              glViewport(0, 0, display_w, display_h);
              glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
              glClear(GL_COLOR_BUFFER_BIT);
@@ -124,7 +123,7 @@
              ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
              glfwPollEvents();
-             glfwSwapBuffers(window);
+             glfwSwapBuffers(app_state.window);
          }
      }
 }

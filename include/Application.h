@@ -10,33 +10,32 @@
 #include "glad.h"
 #include "GLFW/glfw3.h"
 
-#include <stdio.h>
-#include "Editor.h"
+#include <cstdio>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 #include "lua.hpp"
 #include "SceneViewer.h"
+#include "Console.h"
 
 namespace PhyG{
+    typedef struct{
+        GLFWwindow * window;
+        lua_State * L;
+        std::vector<std::unique_ptr<Window>> windows;
+    }App_State;
+
     class Application{
     public:
         Application();
         ~Application();
         void run();
-    private:
-        GLFWwindow *window;
-
-        std::unique_ptr<PhyG::Editor> editor;
 
         static void glfw_error_callback(int error, const char *description);
-        static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
-        lua_State * L;
+        App_State app_state;
 
-        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-        bool show_demo = false;
-        bool show_sv = true;
-        std::unique_ptr<PhyG::SceneViewer> s;
+        ImVec4 clear_color = ImVec4(0.55f, 0.55f, 0.55f, 1.00f);
     };
 }
 

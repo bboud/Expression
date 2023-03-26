@@ -5,13 +5,14 @@
 #include "Cube.h"
 
 namespace PhyG{
-    Cube::Cube(std::string vertex_shader_location, std::string fragment_shader_location,
-                     glm::vec3 iPosition, glm::vec3 iOrientation){
+    Cube::Cube(std::string vertex_shader_location, std::string fragment_shader_location){
         SetName("Cube");
 
         // Create the shader
         shader = std::make_unique<Shader>(vertex_shader_location, fragment_shader_location);
         tex = std::make_unique<Texture2D>("../resources/bricks2.jpg");
+
+        vertCount = 36;
 
         glGenVertexArrays(1, &VAO);
         BindVAO();
@@ -35,20 +36,5 @@ namespace PhyG{
     Cube::~Cube() {
         glDeleteBuffers(GL_ARRAY_BUFFER, &VBO);
         glDeleteVertexArrays(GL_VERTEX_ARRAY, &VAO);
-    }
-
-    void Cube::Draw() {
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-    }
-
-    void Cube::SetCameraUniforms(glm::mat4 v, glm::mat4 p) {
-        model = glm::translate(glm::mat4(1.0), GetPos());
-
-        // Is this the best way to do this?
-        model = glm::rotate(model, GetRot().x, glm::vec3(1.0, 0.0, 0.0));
-        model = glm::rotate(model, GetRot().y, glm::vec3(0.0, 1.0, 0.0));
-        model = glm::rotate(model, GetRot().z, glm::vec3(0.0, 0.0, 1.0));
-
-        shader->SetCameraUniforms(model, v, p);
     }
 }

@@ -6,17 +6,21 @@
 #define GRAPHICS_WINDOW_H
 
 #include "imgui.h"
-#include "glad.h"
-#include "GLFW/glfw3.h"
-#include <memory>
+#include "lua.hpp"
 
 namespace PhyG{
     class Window {
     public:
-        bool opened = false;
+        explicit Window(bool *o);
+        ~Window();
+
+        virtual void Render();
+        virtual void Update();
+        bool GetOpen();
     protected:
+        bool* open;
         ImVec2 size;
-        const char * title;
+        const char * name = "Untitled Window";
     };
 };
 

@@ -5,28 +5,25 @@
 #include "SceneViewer.h"
 
 namespace PhyG{
-    SceneViewer::SceneViewer(GLFWwindow* w) {
-        f = std::make_unique<Framebuffer>(ImVec2(800,600));
+    SceneViewer::SceneViewer(bool *o) : Window(o) {
+        f = std::make_unique<Framebuffer>(ImVec2(500,500));
 
         cam = std::make_unique<Camera>();
-        cam->SetPos(glm::vec3(3,3,3));
+        cam->SetPos(glm::vec3(4, 4, 4));
         cam->SetLookAt(glm::vec3(0,0,0));
 
+        scene_objects.insert({"Cube 1", std::make_unique<Cube>("../shaders/cube.vert", "../shaders/cube.frag")});
+        //scene_objects.insert({"World Plane", std::make_unique<WorldQuad>()});
 
-        cube = std::make_unique<Cube>("../shaders/cube.vert", "../shaders/cube.frag",
-                                      glm::vec3(0.0, 0.0, -3.0), glm::vec3());
-        title = "Scene Viewer";
-
-        glfwSetCursorPosCallback(w, [](GLFWwindow* w, double xpos, double ypos){
-            // Camera Navigation
-        });
+        name = "Scene Viewer";
     }
 
     SceneViewer::~SceneViewer() {}
 
     void SceneViewer::Update() {
         cam->Update();
-        cube->SetRot(glm::vec3( glm::cos(glfwGetTime()), glm::sin(glfwGetTime()), 0.0 ));
+        scene_objects.find("Cube 1")->second->SetRot(glm::vec3(glm::cos(glfwGetTime()), glm::sin(glfwGetTime()), 1.0));
+        //scene_objects.find("World Plane")->second->SetRot(glm::vec3(glm::cos(glfwGetTime()), glm::sin(glfwGetTime()), 1.0));
     }
 
     void SceneViewer::Render() {
@@ -42,28 +39,24 @@ namespace PhyG{
         glClearColor(0.3, 0.3, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        cube->BindTextures();
-        cube->BindShader();
-
-        // Default Camera
         glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-                                      (float)f->GetSize().x/(float)f->GetSize().y,
-                                      0.1f, 100.0f);
+                                                (float)f->GetSize().x/(float)f->GetSize().y,
+                                                0.1f, 100.0f);
 
-        glm::mat4 view = cam->GetView();
-
-        cube->SetCameraUniforms( view, projection);
-        cube->BindVAO();
-
-        cube->Draw();
-
-        cube->UnbindVAO();
+        for(auto &robj : scene_objects){
+            robj.second->BindTextures();
+            robj.second->BindShader();
+            robj.second->SetCameraUniforms(cam->GetView(), projection);
+            robj.second->BindVAO();
+            robj.second->Draw();
+            robj.second->UnbindVAO();
+        }
 
         f->UnBindFBO();
 
-        ImGui::Begin(title, &open);
+        ImGui::Begin(name, open);
         {
-            ImGui::BeginChild(title);
+            ImGui::BeginChild(name);
 
             ImVec2 newSize = ImGui::GetContentRegionAvail();
 
