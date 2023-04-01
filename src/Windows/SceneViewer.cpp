@@ -4,7 +4,7 @@
 
 #include "SceneViewer.h"
 
-namespace PhyG{
+namespace Expression{
     SceneViewer::SceneViewer(bool *o) : Window(o) {
         f = std::make_unique<Framebuffer>(ImVec2(500,500));
 

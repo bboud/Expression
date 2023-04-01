@@ -4,7 +4,7 @@
 
 #include "Framebuffer.h"
 
-PhyG::Framebuffer::Framebuffer(ImVec2 s) {
+Expression::Framebuffer::Framebuffer(ImVec2 s) {
     size = s;
 
     glGenFramebuffers(1, &fbo);
@@ -38,13 +38,13 @@ PhyG::Framebuffer::Framebuffer(ImVec2 s) {
     UnBindTex();
 }
 
-PhyG::Framebuffer::~Framebuffer() {
+Expression::Framebuffer::~Framebuffer() {
     glDeleteRenderbuffers(1, &rbo);
     glDeleteFramebuffers(1, &fbo);
     glDeleteTextures(1, &tex);
 }
 
-void PhyG::Framebuffer::SetSize(ImVec2 s) {
+void Expression::Framebuffer::SetSize(ImVec2 s) {
 
     size = s;
 
@@ -74,10 +74,10 @@ void PhyG::Framebuffer::SetSize(ImVec2 s) {
     UnBindTex();
 }
 
-GLuint PhyG::Framebuffer::GetTexture() {
+GLuint Expression::Framebuffer::GetTexture() {
     return tex;
 }
 
-ImVec2 PhyG::Framebuffer::GetSize() {
+ImVec2 Expression::Framebuffer::GetSize() {
     return size;
 }

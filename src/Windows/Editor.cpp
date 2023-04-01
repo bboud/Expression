@@ -4,6 +4,6 @@
 
 #include "Editor.h"
 
-namespace PhyG {
+namespace Expression {
 
 }

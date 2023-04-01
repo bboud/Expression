@@ -2,7 +2,7 @@
 // Created by Brandon Boudreaux on 3/25/23.
 //
 
-#include "SceneObjects.h"
+#include "../Objects/SceneObjects.h"
 
-namespace PhyG {
-} // PhyG
+namespace Expression {
+} // Expression

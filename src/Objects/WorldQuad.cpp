@@ -4,7 +4,7 @@
 
 #include "WorldQuad.h"
 
-namespace PhyG {
+namespace Expression {
     WorldQuad::WorldQuad() {
         SetPos(glm::vec3(0.0, 0.0, 0.0));
         //SetRot();
@@ -35,4 +35,4 @@ namespace PhyG {
     }
 
     WorldQuad::~WorldQuad() {}
-} // PhyG
+} // Expression

@@ -4,7 +4,7 @@
 
 #include "Texture2D.h"
 
-PhyG::Texture2D::Texture2D(const char * path) {
+Expression::Texture2D::Texture2D(const char * path) {
     glGenTextures(1, &tex);
     BindTex();
 
@@ -24,6 +24,6 @@ PhyG::Texture2D::Texture2D(const char * path) {
     UnBindTex();
 }
 
-PhyG::Texture2D::~Texture2D() {
+Expression::Texture2D::~Texture2D() {
     glDeleteTextures(1, &tex);
 }

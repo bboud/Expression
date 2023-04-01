@@ -4,7 +4,7 @@
 
 #include "Cube.h"
 
-namespace PhyG{
+namespace Expression{
     Cube::Cube(std::string vertex_shader_location, std::string fragment_shader_location){
         SetName("Cube");
 

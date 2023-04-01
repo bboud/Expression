@@ -4,7 +4,7 @@
 
 #include "Camera.h"
 
-namespace PhyG{
+namespace Expression{
     Camera::Camera() {
         SetName("Camera");
 

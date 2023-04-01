@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.23)
-project(graphics)
+project(expression)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wdeprecated-declarations")
@@ -29,45 +29,28 @@ set(SOURCES
         src/glad.c
         src/stb_image.cpp
 
-        imgui/imgui.cpp
-        imgui/imgui_draw.cpp
-        imgui/imgui_tables.cpp
-        imgui/imgui_widgets.cpp
-        imgui/imgui_demo.cpp
-        imgui/backends/imgui_impl_opengl3.cpp
-        imgui/backends/imgui_impl_glfw.cpp)
+        src/imgui/imgui.cpp
+        src/imgui/imgui_draw.cpp
+        src/imgui/imgui_tables.cpp
+        src/imgui/imgui_widgets.cpp
+        src/imgui/imgui_demo.cpp
+        src/imgui/backends/imgui_impl_opengl3.cpp
+        src/imgui/backends/imgui_impl_glfw.cpp)
 
-add_executable(phy_graphics ${SOURCES})
+add_executable(expression ${SOURCES})
 
-set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/imgui)
+target_include_directories(expression PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_link_directories(expression PRIVATE ${PROJECT_SOURCE_DIR}/libs)
 
-# You should also build these yourself first :>
-set(GLFW_DIR ${PROJECT_SOURCE_DIR}/glfw)
-set(LUA_DIR ${PROJECT_SOURCE_DIR}/lua)
-
-target_link_directories(phy_graphics PRIVATE ${GLFW_DIR}/build/src)
-target_link_directories(phy_graphics PRIVATE ${LUA_DIR}/src)
-
-target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/include)
-
-target_include_directories(phy_graphics PRIVATE ${IMGUI_DIR}/backends)
-target_include_directories(phy_graphics PRIVATE ${IMGUI_DIR})
-
-target_include_directories(phy_graphics PRIVATE ${GLFW_DIR}/include)
-
-target_include_directories(phy_graphics PRIVATE ${LUA_DIR}/src)
-
-target_include_directories(phy_graphics PRIVATE ${PROJECT_SOURCE_DIR}/glm)
-
-target_link_libraries(phy_graphics PRIVATE glfw3)
-target_link_libraries(phy_graphics PRIVATE lua)
+target_link_libraries(expression PRIVATE glfw3)
+target_link_libraries(expression PRIVATE lua)
 
 if (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
-    target_link_libraries(phy_graphics PRIVATE GL X11 Xrandr Xinerama Xi Xcursor pthread dl)
+    target_link_libraries(expression PRIVATE GL X11 Xrandr Xinerama Xi Xcursor pthread dl)
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
-    target_link_libraries(phy_graphics PRIVATE "-framework OpenGL -framework Cocoa -framework IOkit")
+    target_link_libraries(expression PRIVATE "-framework OpenGL -framework Cocoa -framework IOkit")
 elseif (CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
-    target_link_libraries(phy_graphics PRIVATE opengl32)
+    target_link_libraries(expression PRIVATE opengl32)
 else ()
     message(WARNING "Unsupported system: ${CMAKE_HOST_SYSTEM_NAME}")
 endif ()

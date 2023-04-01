@@ -4,7 +4,7 @@
 
 #include "Object.h"
 
-namespace PhyG{
+namespace Expression{
     void Object::SetPos(glm::vec3 pos){
         position = pos;
     }

@@ -4,7 +4,7 @@
 
 #include "Console.h"
 
-namespace PhyG {
+namespace Expression {
     Console::Console(bool *o) : Window(o) {}
     Console::~Console() {}
-} // PhyG
+} // Expression

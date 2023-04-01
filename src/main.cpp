@@ -1,6 +1,6 @@
 #include "Application.h"
 
-using namespace PhyG;
+using namespace Expression;
 
 int main(){
     Application a;

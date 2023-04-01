@@ -2,9 +2,9 @@
 // Created by Brandon Boudreaux on 3/25/23.
 //
 
-#include "Window.h"
+#include "../Window.h"
 
-namespace PhyG{
+namespace Expression{
     Window::Window(bool* o){
         open = o;
     }

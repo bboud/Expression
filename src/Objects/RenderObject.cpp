@@ -4,7 +4,7 @@
 
 #include "RenderObject.h"
 
-namespace PhyG {
+namespace Expression {
     void RenderObject::SetCameraUniforms(glm::mat4 v, glm::mat4 p) {
         model = glm::translate(glm::mat4(1.0), GetPos());
         model = glm::translate(model, GetScale());
@@ -27,4 +27,4 @@ namespace PhyG {
     void RenderObject::Draw() {
         glDrawArrays(GL_TRIANGLES, 0, vertCount);
     }
-} // PhyG
+} // Expression

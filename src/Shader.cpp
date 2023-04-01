@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-namespace PhyG{
+namespace Expression{
     Shader::Shader( std::string vertex_path, std::string fragment_path ){
         // Load in the shader:
         std::ifstream vFile;
